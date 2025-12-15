@@ -309,14 +309,6 @@ batch_size = 32
 n_samples = X_train.shape[0]
 n_batches = n_samples // batch_size
 
-# List of loss history and accuracy
-train_loss_array = []
-val_loss_array = []
-
-train_accuracy_array = []
-val_accuracy_array = []
-
-
 # Flatten and encode data
 X_train = X_train.astype(np.float32) / 255.0
 X_test = X_test.astype(np.float32) / 255.0
@@ -400,17 +392,10 @@ for epoch in range(max_iterations):
 
     # Compute training accuracy and loss per epoch
     loss = epoch_loss / n_batches
-    train_loss_array.append(loss)
-
     epoch_acc = epoch_correct / epoch_total
-    train_accuracy_array.append(epoch_acc*100)
 
     # Compute validation accuracy and loss per epoch
     y_pred = predict(X_test)
     val_acc = accuracy(np.argmax(y_pred, axis=1), y_test)
-    val_accuracy_array.append(val_acc*100)
-
-    val_loss = cross_entropy_loss(y_pred, y_test_encoded)
-    val_loss_array.append(val_loss)
 
     print(f"Epoch {1+epoch:4d} | Loss: {loss:.6f} | Training Accuracy: {epoch_acc*100:.2f}% | Test accuracy: {val_acc*100:.2f}%")
